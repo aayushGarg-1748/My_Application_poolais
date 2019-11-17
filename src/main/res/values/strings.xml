@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="fem">Female</string>
+    <string name="mal">Male</string>
+    <string name="gend">Gender:</string>
+    <string name="sumbit">Sumbit/Register</string>
+    <string name="full">Full Name</string>
+    <string name="user">User Name</string>
+    <string name="em">Email</string>
+    <string name="pass">Password</string>
+    <string name="con_pass">Confirm Password</string>
+    <string name="head">Where Are You Going!</string>
+    <string name="Log">Login</string>
+    <string name="userem">Email</string>
+    <string name="register_here">Register Here</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="where">Where Are You Going!</string>
+    <string name="sign">already have an account sign in here!</string>
+    <string name="verification">Send Verification Mail Again!</string>
+    <string name="where_are_you_going">Where are you going!</string>
+    <string name="sign_out">SIGN OUT</string>
+    <string name="email_address">Email Address:</string>
+    <string name="gender">Gender:</string>
+    <string name="user_id">User ID:</string>
+    <string name="full_name">Full Name:</string>
+    <string name="need_a_account_signup">Need a Account? Signup!</string>
+    <string name="amitranet_user_name">Amitranet User Name</string>
+    <string name="full_nam">Full Name</string>
+    <string name="i_am_driving">I am driving!</string>
+    <string name="carpooling">Carpooling!</string>
+    <string name="w">Where are you going!</string>
+
+</resources>

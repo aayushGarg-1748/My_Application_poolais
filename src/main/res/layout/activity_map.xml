@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:id="@+id/relLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/white_boder"
+        android:elevation="70dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/ic_icon_magnify"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:src="@drawable/ic_icon_magnify" />
+
+        <TextView
+            android:id="@+id/carpool_editText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/ic_icon_magnify"
+            android:gravity="center"
+            android:hint="@string/where_are_you_going"
+            android:importantForAutofill="no"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            android:textSize="22sp"
+            android:textStyle="italic"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/drive_editText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/ic_icon_magnify"
+            android:gravity="center"
+            android:hint="@string/where_are_you_going"
+            android:importantForAutofill="no"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textColorHint="#000"
+            android:textSize="22sp"
+            android:textStyle="italic"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom_rel_layout_2"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignBottom="@id/map"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/white_boder"
+        android:elevation="70dp"
+        android:visibility="visible">
+
+        <Button
+            android:id="@+id/driving"
+            android:layout_width="190dp"
+            android:layout_height="56dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:width="190dp"
+            android:background="@drawable/rounded_button_797970"
+            android:elevation="20dp"
+            android:text="@string/i_am_driving"
+            android:textSize="22sp" />
+
+        <Button
+            android:id="@+id/carpooling"
+            android:layout_width="190dp"
+            android:layout_height="56dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="205dp"
+            android:layout_marginBottom="5dp"
+            android:width="190dp"
+            android:background="@drawable/rounded_button_797970"
+            android:elevation="20dp"
+            android:padding="5dp"
+            android:text="@string/carpooling"
+            android:textSize="22sp" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

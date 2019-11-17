@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000000"
+        android:text=" Update User Info . . . . ."
+        android:textColor="#ffff"
+        android:textSize="24sp"
+        android:textStyle="bold">
+
+    </TextView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColorHint="#000000">
+
+        <EditText
+            android:id="@+id/fullnameUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="FullName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColorHint="#000000">
+
+        <EditText
+            android:id="@+id/useidUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="UserID" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColorHint="#000000">
+
+        <EditText
+            android:id="@+id/GenderUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/gend" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="20dp"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/buttonupdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="UPDATE DATA"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:shadowRadius="10"
+            android:background="@drawable/butttonblack"/>
+    </LinearLayout>
+</LinearLayout>
