@@ -14,9 +14,9 @@ public class Users implements Parcelable {
     private String username;
     private String email;
     private String gender;
-    private int guide_coupons;
+    //private int guide_coupons;
     private int coins;
-    private int search_coupons;
+    private int credits;
     private boolean premium;
 
     public Users(Date timestamp, String fullname, String username, String email, String gender, int guide_coupons, int coins, int search_coupons, boolean premium) {
@@ -25,9 +25,9 @@ public class Users implements Parcelable {
         this.username = username;
         this.email = email;
         this.gender = gender;
-        this.guide_coupons = guide_coupons;
+        //this.guide_coupons = guide_coupons;
         this.coins = coins;
-        this.search_coupons = search_coupons;
+        this.credits = search_coupons;
         this.premium = premium;
     }
 
@@ -39,9 +39,9 @@ public class Users implements Parcelable {
         username = in.readString();
         email = in.readString();
         gender = in.readString();
-        guide_coupons = in.readInt();
+        //guide_coupons = in.readInt();
         coins = in.readInt();
-        search_coupons = in.readInt();
+        credits = in.readInt();
         premium = in.readByte() != 0;
     }
 
@@ -97,13 +97,13 @@ public class Users implements Parcelable {
         this.gender = gender;
     }
 
-    public int getGuide_coupons() {
-        return guide_coupons;
-    }
+    //public int getGuide_coupons() {
+    //  return guide_coupons;
+    //}
 
-    public void setGuide_coupons(int guide_coupons) {
-        this.guide_coupons = guide_coupons;
-    }
+    //public void setGuide_coupons(int guide_coupons) {
+    //  this.guide_coupons = guide_coupons;
+    //}
 
     public int getCoins() {
         return coins;
@@ -113,12 +113,12 @@ public class Users implements Parcelable {
         this.coins = coins;
     }
 
-    public int getSearch_coupons() {
-        return search_coupons;
+    public int getCredits() {
+        return credits;
     }
 
-    public void setSearch_coupons(int search_coupons) {
-        this.search_coupons = search_coupons;
+    public void setCredits(int credits) {
+        this.credits = credits;
     }
 
     public boolean isPremium() {
@@ -136,9 +136,8 @@ public class Users implements Parcelable {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", gender='" + gender + '\'' +
-                ", guide_coupons=" + guide_coupons +
                 ", coins=" + coins +
-                ", search_coupons=" + search_coupons +
+                ", credits=" + credits +
                 ", premium=" + premium +
                 '}';
     }
@@ -155,8 +154,8 @@ public class Users implements Parcelable {
         dest.writeString(username);
         dest.writeString(gender);
         dest.writeInt(coins);
-        dest.writeInt(search_coupons);
-        dest.writeInt(guide_coupons);
+        dest.writeInt(credits);
+        //dest.writeInt(guide_coupons);
         dest.writeBoolean(premium);
     }
 }

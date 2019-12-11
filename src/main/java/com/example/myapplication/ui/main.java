@@ -8,8 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -20,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,9 +28,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.myapplication.Clients.UserClient;
 import com.example.myapplication.R;
 import com.example.myapplication.Services.LocationService;
-import com.example.myapplication.Clients.UserClient;
 import com.example.myapplication.models.Users;
 import com.example.myapplication.models.UsersLocation;
 import com.example.myapplication.models.place_data_model_class;
@@ -58,8 +57,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -73,7 +70,6 @@ import static com.example.myapplication.Clients.Constants.TEXT;
 import static com.example.myapplication.Clients.Constants.api_key;
 import static com.example.myapplication.Clients.Constants.location_coarse;
 import static com.example.myapplication.Clients.Constants.location_fine;
-import static com.example.myapplication.Services.LocationService.Userid2;
 
 public class main extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -84,13 +80,14 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
     //objects
     Location currentLocation;
     GoogleMap mMap;
-    Button driving, carpooling;
+    Button driving, carpooling, exit_driving;
     TextView drive_editText, carpool_editText;
-    RelativeLayout bottom_rel_lay_2, relativeLayout;
+    RelativeLayout bottom_rel_lay_2, relativeLayout, bottom_rel_lay_3;
     UsersLocation mUserLocation;
     String Userid = "";
     private place_data_model_class mPlace;
     private FirebaseFirestore mDb = FirebaseFirestore.getInstance();
+    ImageView navigate;
 
     //vars
     private Boolean mLocationPermissionGranted = false;
@@ -102,6 +99,10 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        bottom_rel_lay_3 = findViewById(R.id.bottom_rel_layout_3);
+        exit_driving = findViewById(R.id.exitride);
+        navigate = findViewById(R.id.navigate);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -167,21 +168,8 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
         driving.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Userid2 = null;
-                //UserId = null;
 
-                //getUserDetails();
-                drive_editText.setText(R.string.w);
-                relativeLayout.setVisibility(View.VISIBLE);
-                drive_editText.setVisibility(View.VISIBLE);
-                carpool_editText.setText(R.string.w);
-                carpool_editText.setVisibility(View.GONE);
-                bottom_rel_lay_2.setVisibility(View.GONE);
-
-                if (getIntentToCall()) {
-
-                }
-                if (getDialogIntentToCall()){
+                if (getDialogIntentToCall()) {
 
                 }
             }
@@ -191,14 +179,6 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
         carpooling.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Userid2 = null;
-                //UserId = null;
-                //getUserDetails();
-                carpool_editText.setText(R.string.w);
-                relativeLayout.setVisibility(View.VISIBLE);
-                carpool_editText.setVisibility(View.VISIBLE);
-                drive_editText.setText(R.string.w);
-                drive_editText.setVisibility(View.GONE);
 
                 if (getCarpoolDialogIntentToCall()) {
 
@@ -213,7 +193,7 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
     private boolean getDialogIntentToCall() {
         new AlertDialog.Builder(main.this)
                 .setTitle("Do you want to drive?")
-                .setMessage("Do you want to use 10 drive coupons?")
+                .setMessage("Do you want to use 10 credits?")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
@@ -225,25 +205,34 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
                                     @Override
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                         if (documentSnapshot != null) {
-                                            int search = (documentSnapshot.getLong("search_coupons").intValue());
+                                            int search = (documentSnapshot.getLong("credits").intValue());
                                             if (search > 10) {
                                                 int guide_cop = search - 10;
-                                                reference.update("guide_coupons", guide_cop).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                reference.update("credits", guide_cop).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful()) {
                                                             Toast.makeText(main.this, "Enough coupons were available! 10 were taken for driving", Toast.LENGTH_SHORT).show();
                                                             Log.d(TAG, "onComplete: everything seems fine");
                                                             startLocationServiceDriving();
+
+                                                            drive_editText.setText((R.string.am));
+                                                            relativeLayout.setVisibility(View.VISIBLE);
+                                                            drive_editText.setVisibility(View.VISIBLE);
+                                                            carpool_editText.setVisibility(View.GONE);
+                                                            bottom_rel_lay_2.setVisibility(View.GONE);
+
+                                                            driving();
+
                                                         } else {
                                                             Toast.makeText(main.this, "Error Occurred", Toast.LENGTH_SHORT).show();
                                                             Log.d(TAG, "onComplete: nothing is working");
-
                                                         }
                                                     }
                                                 });
                                             } else {
-                                                Toast.makeText(main.this, "You do not have enough guide coupons", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(main.this, "You do not have enough credits", Toast.LENGTH_SHORT).show();
+                                                reset();
                                             }
                                         }else {
                                             Toast.makeText(main.this, dev + "please retry", Toast.LENGTH_SHORT).show();
@@ -266,12 +255,12 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
             }
         }).show();
         return true;
-        }
+    }
 
     private boolean getCarpoolDialogIntentToCall() {
         new AlertDialog.Builder(main.this)
-                .setTitle("Carpool Too This Place")
-                .setMessage("Do you want to Carpool To This Location ?")
+                .setTitle("Do you want to carpool?")
+                .setMessage("Do you want to use 10 credits")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
@@ -283,16 +272,26 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
                                     @Override
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                         if (documentSnapshot != null) {
-                                            int search = (documentSnapshot.getLong("search_coupons").intValue());
+                                            int search = (documentSnapshot.getLong("credits").intValue());
                                             if (search > 10) {
                                                 int guide_cop = search - 10;
-                                                reference.update("search_coupons", guide_cop).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                reference.update("credits", guide_cop).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful()) {
-                                                            Toast.makeText(main.this, "Enough coupons were available! 10 were taken for carpooling", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(main.this, "Enough credits were available! 10 were taken for carpooling", Toast.LENGTH_SHORT).show();
                                                             Log.d(TAG, "onComplete: everything seems fine");
-                                                            startLocationServiceDriving();
+
+                                                            drive_editText.setVisibility(View.GONE);
+                                                            carpool_editText.setText(R.string.w);
+                                                            relativeLayout.setVisibility(View.VISIBLE);
+                                                            carpool_editText.setVisibility(View.VISIBLE);
+                                                            bottom_rel_lay_2.setVisibility(View.GONE);
+
+
+                                                            if (getIntentToCall()) {
+                                                                Toast.makeText(main.this, "Please enter the place you want to go", Toast.LENGTH_SHORT).show();
+                                                            }
                                                         } else {
                                                             Toast.makeText(main.this, "Error Occurred", Toast.LENGTH_SHORT).show();
                                                             Log.d(TAG, "onComplete: nothing is working");
@@ -302,6 +301,7 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
                                                 });
                                             } else {
                                                 Toast.makeText(main.this, "You do not have enough search coupons", Toast.LENGTH_SHORT).show();
+                                                reset();
                                             }
                                         }else {
                                             Toast.makeText(main.this, dev + "failed", Toast.LENGTH_SHORT).show();
@@ -326,6 +326,22 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
         }).show();
 
         return true;
+    }
+
+    private void driving() {
+
+        setPrice();
+
+        navigate.setVisibility(View.VISIBLE);
+        bottom_rel_lay_3.setVisibility(View.VISIBLE);
+        exit_driving.setVisibility(View.VISIBLE);
+
+        exit_driving.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reset();
+            }
+        });
     }
 
     //get google intent to display
@@ -366,15 +382,15 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
                     mPlace.setOpening_hours(place.getOpeningHours());
                     mPlace.setWebsiteUri(place.getWebsiteUri());
 
-                    drive_editText.setText(place.getAddress());
-                    carpool_editText.setText(place.getAddress());
+
 
                     if (place.getName() != null) {
-                        getDialogIntentToCall();
+                        carpool_editText.setText(place.getAddress());
                     }
 
                     moveCamera(place.getLatLng(), DEFAULT_ZOOM, place.getName());
                     Log.i(TAG, "Place: " + mPlace.toString());
+
                 } catch (NullPointerException e) {
                     Toast.makeText(this, "error" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -391,7 +407,7 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
 
     //move camera method
     private void moveCamera(LatLng latLng, float zoom, String title) {
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
         HideSoftKeyboard();
 
         if (!(title.equals("My location"))) {
@@ -454,7 +470,7 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
 
     }
 
-/* --------------------------------------------------MENU-BAR--------------------------------------------------------------------------------------------------------------------------------------------- */
+    /* --------------------------------------------------MENU-BAR--------------------------------------------------------------------------------------------------------------------------------------------- */
 
     //an menu item
     @Override
@@ -485,7 +501,7 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
         return true;
     }
 
-/* --------------------------------------------------PERMISSIONS--------------------------------------------------------------------------------------------------------------------------------------------- */
+    /* --------------------------------------------------PERMISSIONS--------------------------------------------------------------------------------------------------------------------------------------------- */
 
     //requesting phone the permission of location
     @Override
@@ -556,66 +572,15 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
         return true;
     }
 
-/* ----------------------------------------------------FALTU----------------------------------------------------------------------------------------------------------------------------------------------- */
+    /* ----------------------------------------------------FALTU----------------------------------------------------------------------------------------------------------------------------------------------- */
 
     //get text from edit text method
-    private void geoLocate1() {
+    public void setPrice() {
 
-        Log.d(TAG, "geoLocate: geolocating");
-
-        String searchString = carpool_editText.getText().toString();
-
-        Geocoder geocoder1 = new Geocoder(main.this);
-        List<Address> list1 = new ArrayList<>();
-
-        try {
-
-            list1 = geocoder1.getFromLocationName(searchString, 1);
-
-        } catch (IOException e) {
-            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
-        }
-
-        if (list1.size() > 0) {
-
-            Address address1 = list1.get(0);
-
-            Log.d(TAG, "geoLocate: found a location" + address1.toString());
-            Toast.makeText(this, address1.toString(), Toast.LENGTH_SHORT).show();
-            moveCamera(new LatLng(address1.getLatitude(), address1.getLongitude()), DEFAULT_ZOOM, address1.getAddressLine(0));
-        }
 
     }
 
-    private void geoLocate() {
-        Log.d(TAG, "geoLocate: geolocating");
-
-        String searchString = drive_editText.getText().toString();
-
-        Geocoder geocoder = new Geocoder(main.this);
-        List<Address> list = new ArrayList<>();
-
-        try {
-
-            list = geocoder.getFromLocationName(searchString, 1);
-
-        } catch (IOException e) {
-            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
-        }
-
-        if (list.size() > 0) {
-
-            Address address = list.get(0);
-
-            Log.d(TAG, "geoLocate: found a location" + address.toString());
-            Toast.makeText(this, address.toString(), Toast.LENGTH_LONG).show();
-
-            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
-        }
-
-    }
-
-/* ----------------------------------------------------EXTRAS----------------------------------------------------------------------------------------------------------------------------------------------- */
+    /* ----------------------------------------------------EXTRAS----------------------------------------------------------------------------------------------------------------------------------------------- */
 
     //hide the users keyboard
     private void HideSoftKeyboard() {
@@ -657,6 +622,20 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
         return false;
     }
 
+    private void stopLocationServiceDriving() {
+        if (!isLocationServiceRunningDriving()) {
+            Intent serviceIntent = new Intent(this, LocationService.class);
+//        this.startService(serviceIntent);
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+
+                main.this.stopService(serviceIntent);
+            } else {
+                stopService(serviceIntent);
+            }
+        }
+    }
+
     private void reset(){
 
         bottom_rel_lay_2.setVisibility(View.VISIBLE);
@@ -667,12 +646,23 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
         drive_editText.setVisibility(View.GONE);
         carpool_editText.setVisibility(View.GONE);
 
-        Userid2 = null;
-        //UserId = null;
+        navigate.setVisibility(View.GONE);
+        bottom_rel_lay_3.setVisibility(View.GONE);
+        exit_driving.setVisibility(View.GONE);
+
+        stopLocationServiceDriving();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
     }
 
 
-/*----------------------------------------------------FireStore------------------------------------------------------------------------------------------------------------------------------------------*/
+    /*----------------------------------------------------FireStore------------------------------------------------------------------------------------------------------------------------------------------*/
 
 
     private void saveUserLocation() {
@@ -726,4 +716,5 @@ public class main extends AppCompatActivity implements OnMapReadyCallback {
             getLastKnownLocation();
         }
     }
+
 }

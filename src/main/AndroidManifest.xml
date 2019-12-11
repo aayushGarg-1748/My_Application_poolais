@@ -6,22 +6,21 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality.
     -->
-    <uses-permission android:name= "android.permission.INTERNET" />
-    <uses-permission android:name= "android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name= "android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name= "android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".Clients.UserClient"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="poolais"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.buy_premium_membership">
-
-        </activity>
+        <activity android:name=".ui.splash_screen"></activity>
+        <activity android:name=".ui.buy_premium_membership"></activity>
         <activity android:name=".ui.available_coupons" />
         <activity android:name=".ui.Main3Activity">
             <intent-filter>
@@ -32,12 +31,11 @@
         </activity>
         <activity
             android:name=".ui.user_info"
+            android:parentActivityName=".ui.main"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ui.main"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -53,8 +51,9 @@
             android:name=".ui.MainActivity"
             android:screenOrientation="portrait" />
 
-        <service android:name=".Services.LocationService"
-            android:stopWithTask="true"></service>
+        <service
+            android:name=".Services.LocationService"
+            android:stopWithTask="true" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

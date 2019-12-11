@@ -112,9 +112,8 @@ public class MainActivity extends AppCompatActivity {
                     map1.put("gender", gender);
 
                     final HashMap<String, Integer> map2 = new HashMap<>();
-                    map2.put("guide_coupons",50);
                     map2.put("coins",0);
-                    map2.put("search_coupons",100);
+                    map2.put("credits", 100);
 
                     final HashMap<String, Boolean> map3 = new HashMap<>();
                     map3.put("premium",false);

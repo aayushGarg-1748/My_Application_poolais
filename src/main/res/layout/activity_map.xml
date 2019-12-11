@@ -106,7 +106,41 @@
             android:text="@string/carpooling"
             android:textSize="22sp" />
 
-
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom_rel_layout_3"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignBottom="@id/map"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/white_boder"
+        android:elevation="70dp"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/exitride"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/button_rounded"
+            android:text="     exit Ride     "
+            android:textSize="25sp"
+
+            />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/navigate"
+        android:layout_width="79dp"
+        android:layout_height="79dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
+        android:src="@drawable/ic_navigation_black_24dp"
+        android:visibility="gone" />
+
 
 </RelativeLayout>
